@@ -1,17 +1,20 @@
 package com.api.project.models;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection="BathroomDetails")
 public class BathroomDetails {
-	private String place_id;
+	private String placeId;
 	private Bathroom mens_room;
 	private Bathroom womens_room;
 	private Bathroom gender_neutral;
 
 	public String getPlaceId() {
-		return place_id;
+		return placeId;
 	}
 
 	public void setPlaceId(String place_id) {
-		this.place_id = place_id;
+		this.placeId = place_id;
 	}
 
 	public Bathroom getMensRoom() {
