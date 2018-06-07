@@ -33,10 +33,11 @@ public class BathroomDetailsController {
 	 * @param placeId
 	 * @return
 	 */
-	@GetMapping("/find-by-place-id/{placeId}")
-	public BathroomAndPlaceDetails findByPlaceId(@PathVariable("placeID") String placeId){
+	@GetMapping("/findByPlaceId/{placeId}")
+	public BathroomAndPlaceDetails findByPlaceId(@PathVariable("placeId") String placeId){
 		BathroomAndPlaceDetails bathroomAndPlaceDetails = new BathroomAndPlaceDetails();
-		BathroomDetails bathroomDetails = bathroomDetailsRepo.findByPlaceId(placeId);
+		BathroomDetails bathroomDetails = new BathroomDetails();
+		bathroomDetails = bathroomDetailsRepo.findByPlaceId(placeId);
 		PlaceDetails placeDetails = new PlaceDetails();
 		
 		try {
