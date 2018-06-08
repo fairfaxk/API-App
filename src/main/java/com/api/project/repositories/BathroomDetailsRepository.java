@@ -8,4 +8,5 @@ import com.api.project.models.BathroomDetails;
 @Repository
 public interface BathroomDetailsRepository extends MongoRepository<BathroomDetails, String> {
 	public BathroomDetails findByPlaceId(String placeId);
+	public void deleteByPlaceId(String placeId);
 }
