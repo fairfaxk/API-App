@@ -56,5 +56,55 @@ public class BathroomDetailsController {
 		bathroomAndPlaceDetails.setPlaceDetails(placeDetails);
 		return bathroomAndPlaceDetails;
 	}
+
+
+	@PostMapping("/add-bathroom-details")
+	public BathroomAndPlaceDetails addPlaceDetails( @Valid @RequestBody BathroomAndPlaceDetails bathroomandplaceDetails){
+
+		//get bathroom details
+		BathroomDetails bathroomDetails = bathroomDetailsRepo.findPlaceById(bathroomandplaceDetails.getBathroomDetails.getPlaceId());
+		PlaceDetails placeDetails = new PlaceDetails();
+
+		//get all room info
+		Bathroom mens = bathroomandplaceDetails.getBathroomDetails().getMensRoom();
+		Bathroom womens = bathroomandplaceDetails.getBathroomDetails().getWomensRoom();
+		Bathroom genderNeutral = bathroomandplaceDetails.getBathroomDetails().getGenderNeutralRoom();
+
+		//get current ratings and codes from bathroom details
+		List<Ratings> mensRatings = bathroomDetails.getMensRoom.getRatings();
+		List<Codes> mensCodes = bathroomDetails.getMensRoom.getCodes();
+		List<Ratings> womensRatings = bathroomDetails.getWomensRoom.getRatings();
+		List<Codes> womensCodes = bathroomDetails.getWomensRoom.getCodes();
+		List<Ratings> genderNeutralRatings = bathroomDetails.getGenderNeutralRoom.getRatings();
+		List<Codes> genderNeutralCodes = bathroomDetails.getGenderNeutralRoom.getCodes();
+
+		//add ratings and codes
+		mensRatings.add(mens.getRatings());
+		mensCodes.add(mens.getCodes());
+		womensRatings.add(womens.getRatings());
+		womensCodes.add(womens.getCodes());
+		genderNeutralRatings.add(genderNeutral.getRatings());
+		genderNeutralCodes.add(genderNeutral.getCodes());
+
+		//update bathrooms
+		mens.setRatings(mensRatings);
+		mens.setCodes(mensCodes);
+		womens.setRatings(womensRatings);
+		womens.setCodes(womensCodes);
+		genderNeutral.setRatings(genderNeutralRatings);
+		genderNeutral.setCodes(genderNeutralCodes);
+
+		//set updated bathroom details
+		bathroomDetails.setMensRoom(bathroomandplaceDetails.getBathroomDetails().getMensRoom());
+		bathroomDetails.setWomensRoom(bathroomandplaceDetails.getBathroomDetails().getWomensRoom());
+		bathroomDetails.setGenderNeutralRoom(bathroomandplaceDetails.getBathroomDetails().getGenderNeutralRoom());
+		placeDetails = bathroomandplaceDetails.getPlaceDetails();
+
+		//save in bathroom details repo
+		bathroomDetailsRepo.save(bathroomDetails);
+
+		return bathroomandplaceDetails;
+
+	}
 	
 }
