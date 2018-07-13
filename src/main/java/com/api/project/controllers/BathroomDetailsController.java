@@ -64,6 +64,19 @@ public class BathroomDetailsController {
 		bathroomAndPlaceDetails.setPlaceDetails(placeDetails);
 		return bathroomAndPlaceDetails;
 	}
+	
+	/**
+	 * Gets the bathroom details (from MongoDB) of input place
+	 * 
+	 * @param placeId
+	 * @return
+	 */
+	@GetMapping("/findBathroomByPlaceId/{placeId}")
+	public BathroomDetails findBathroomByPlaceId(@PathVariable("placeId") String placeId){
+		BathroomDetails bathroomDetails = new BathroomDetails();
+		bathroomDetails = bathroomDetailsRepo.findByPlaceId(placeId);
+		return bathroomDetails;
+	}
 
 	@PutMapping("/add-bathroom-details")
 	public BathroomDetails addBathroomDetails( @Valid @RequestBody BathroomDetails bathroomDetails){
