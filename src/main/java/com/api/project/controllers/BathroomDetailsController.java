@@ -230,4 +230,64 @@ public class BathroomDetailsController {
 		return bathroomDetailsRepo.save(newBathroomDetails);
 	}
 	
+	
+	@PutMapping("/vote/{type}")
+	public BathroomAndPlaceDetails addPlaceDetails(@Valid @RequestBody BathroomAndPlaceDetails bathroomandplaceDetails, @PathVariable("type") String type) {
+
+		//get bathroom details
+		BathroomDetails bathroomDetails = bathroomDetailsRepo.findPlaceById(bathroomandplaceDetails.getBathroomDetails.getPlaceId());
+		PlaceDetails placeDetails = new PlaceDetails();
+
+		Bathroom mens = bathroomandplaceDetails.getBathroomDetails().getMensRoom();
+		Bathroom womens = bathroomandplaceDetails.getBathroomDetails().getWomensRoom();
+		Bathroom genderNeutral = bathroomandplaceDetails.getBathroomDetails().getGenderNeutralRoom();
+
+		//get current codes from bathroom details
+		List<Codes> mensCodes = bathroomDetails.getMensRoom.getCodes();
+		List<Codes> womensCodes = bathroomDetails.getWomensRoom.getCodes();
+		List<Codes> genderNeutralCodes = bathroomDetails.getGenderNeutralRoom.getCodes();
+
+		//get codes from request body
+		List<Codes> requestmensCodes = mens.getCodes();
+		List<Codes> requestwomensCodes = womens.getCodes();
+		List<Codes> requestgenderNeutralCodes = genderNeutral.getCodes();
+
+		int vote = 0;
+		if (type == "up") vote += 1;
+		if (type == "down") vote += -1;
+		for (Code code : mensCodes) {
+			if (code.getVotes() != null) {
+				if (requestmensCodes.contains(code)) {
+					code.setVotes(code.getVotes() + vote);
+				}
+			} else {
+				if (requestmensCodes.contains(code)) {
+					code.setVotes(vote);
+				}
+			}
+		}
+
+		for (Code code : womensCodes) {
+			if (code.getVotes() != null) {
+				if (requestwomensCodes.contains(code)) {
+					code.setVotes(code.getVotes() + vote);
+				}
+			} else {
+				if (requestwomensCodes.contains(code)) {
+					code.setVotes(vote);
+				}
+			}
+		}
+
+		for (Code code : genderNeutralCodes) {
+			if (code.getVotes() != null) {
+				if (requestgenderNeutralCodes.contains(code)) {
+					code.setVotes(code.getVotes() + vote);
+				}
+			} else {
+				if (requestgenderNeutralCodes.contains(code)) {
+					code.setVotes(vote);
+				}
+			}
+		}
 }
