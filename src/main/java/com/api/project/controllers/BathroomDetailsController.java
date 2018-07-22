@@ -241,6 +241,7 @@ public class BathroomDetailsController {
 		List<Code> womensCodes = bathroomDetails.getWomensRoom().getCodes();
 		List<Code> genderNeutralCodes = bathroomDetails.getGenderNeutral().getCodes();
 
+		//if upvote or downvote
 		int vote = 0;
 		if (type == "up") vote += 1;
 		if (type == "down") vote += -1;
