@@ -77,7 +77,7 @@ public class BathroomDetailsController {
 		bathroomDetails = bathroomDetailsRepo.findByPlaceId(placeId);
 		return bathroomDetails;
 	}
-
+/*
 	@PutMapping("/add-bathroom-details")
 	public BathroomDetails addBathroomDetails( @Valid @RequestBody BathroomDetails bathroomDetails){
 		//get bathroom details
@@ -226,6 +226,162 @@ public class BathroomDetailsController {
 				newBathroomDetails.setGenderNeutral(bathroom);
 			}
 		}
+		//Save the bathroom details
+		return bathroomDetailsRepo.save(newBathroomDetails);
+	}*/
+	
+	@PutMapping("/add-bathroom-details")
+	public BathroomDetails addBathroomDetails( @Valid @RequestBody BathroomDetails bathroomDetails){
+		//get bathroom details
+		BathroomDetails newBathroomDetails = bathroomDetailsRepo.findByPlaceId(bathroomDetails.getPlaceId());
+		
+		//Handles null pointers in case the input bathroom isn't already in the DB
+		if(newBathroomDetails==null){
+			newBathroomDetails = new BathroomDetails();
+		}
+		
+		//Make sure we aren't updating any empty data
+		if(bathroomDetails!=null){
+			if(bathroomDetails.getMensRoom()!=null){
+				Bathroom newMens = newBathroomDetails.getMensRoom();
+				
+				//Handles null pointers
+				if(newMens==null){
+					newMens = new Bathroom();
+				}
+				
+				Bathroom mens = bathroomDetails.getMensRoom();
+				
+				//Only updates if they are changing from false to true
+				if(mens.isExists()){
+					newMens.setExists(true);
+				}
+				//Only updates if changing from false to true
+				if(mens.isHandicap()){
+					newMens.setHandicap(true);
+				}
+				
+				//Adds the input codes to the database if there are any
+				if(mens.getCodes()!=null){
+					List<Code> codes = newMens.getCodes();
+					
+					//handles nulls
+					if(codes==null){
+						codes = new ArrayList<>();
+					}
+					
+					codes.addAll(mens.getCodes());
+					
+					newMens.setCodes(codes);
+				}
+				if(mens.getRatings()!=null){
+					List<Double> ratings = newMens.getRatings();
+					
+					//Handles null pointers
+					if(ratings==null){
+						ratings = new ArrayList<>();
+					}
+					ratings.addAll(mens.getRatings());
+					
+					newMens.setRatings(ratings);
+				}
+				
+				newBathroomDetails.setMensRoom(newMens);
+			}
+			if(bathroomDetails.getWomensRoom()!=null){
+				Bathroom newWomens = newBathroomDetails.getWomensRoom();
+				
+				//Handles null pointers
+				if(newWomens==null){
+					newWomens = new Bathroom();
+				}
+				
+				Bathroom womens = bathroomDetails.getWomensRoom();
+				
+				//Only updates if they are changing from false to true
+				if(womens.isExists()){
+					newWomens.setExists(true);
+				}
+				//Only updates if changing from false to true
+				if(womens.isHandicap()){
+					newWomens.setHandicap(true);
+				}
+				
+				//Adds the input codes to the database if there are any
+				if(womens.getCodes()!=null){
+					List<Code> codes = newWomens.getCodes();
+					
+					//handles nulls
+					if(codes==null){
+						codes = new ArrayList<>();
+					}
+					
+					codes.addAll(womens.getCodes());
+					
+					newWomens.setCodes(codes);
+				}
+				if(womens.getRatings()!=null){
+					List<Double> ratings = newWomens.getRatings();
+					
+					//Handles null pointers
+					if(ratings==null){
+						ratings = new ArrayList<>();
+					}
+					ratings.addAll(womens.getRatings());
+					
+					newWomens.setRatings(ratings);
+				}
+				
+				newBathroomDetails.setWomensRoom(newWomens);
+			}
+			if(bathroomDetails.getGenderNeutral()!=null){
+				Bathroom newGenderNeutral = newBathroomDetails.getGenderNeutral();
+				
+				//Handles null pointers
+				if(newGenderNeutral==null){
+					newGenderNeutral = new Bathroom();
+				}
+				
+				Bathroom genderNeutral = bathroomDetails.getGenderNeutral();
+				
+				//Only updates if they are changing from false to true
+				if(genderNeutral.isExists()){
+					newGenderNeutral.setExists(true);
+				}
+				//Only updates if changing from false to true
+				if(genderNeutral.isHandicap()){
+					newGenderNeutral.setHandicap(true);
+				}
+				
+				//Adds the input codes to the database if there are any
+				if(genderNeutral.getCodes()!=null){
+					List<Code> codes = newGenderNeutral.getCodes();
+					
+					//handles nulls
+					if(codes==null){
+						codes = new ArrayList<>();
+					}
+					
+					codes.addAll(genderNeutral.getCodes());
+					
+					newGenderNeutral.setCodes(codes);
+				}
+				if(genderNeutral.getRatings()!=null){
+					List<Double> ratings = newGenderNeutral.getRatings();
+					
+					//Handles null pointers
+					if(ratings==null){
+						ratings = new ArrayList<>();
+					}
+					ratings.addAll(genderNeutral.getRatings());
+					
+					newGenderNeutral.setRatings(ratings);
+				}
+				
+				newBathroomDetails.setGenderNeutral(newGenderNeutral);
+			}
+		}
+		
 		//Save the bathroom details
 		return bathroomDetailsRepo.save(newBathroomDetails);
 	}
