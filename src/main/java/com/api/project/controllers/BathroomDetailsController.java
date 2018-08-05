@@ -35,7 +35,6 @@ public class BathroomDetailsController {
 
 	@Value("${api.key}")
 	private String apiKey;
-
 	/**
 	 * Gets the place details (from google api) and bathroom details (from MongoDB) of input place
 	 *
@@ -43,7 +42,7 @@ public class BathroomDetailsController {
 	 * @return
 	 */
 	@GetMapping("/findByPlaceId/{placeId}")
-	public BathroomAndPlaceDetails findByPlaceId(@PathVariable("placeId") String placeId) {
+	public BathroomAndPlaceDetails findByPlaceId(@PathVariable("placeId") String placeId){
 		BathroomAndPlaceDetails bathroomAndPlaceDetails = new BathroomAndPlaceDetails();
 		BathroomDetails bathroomDetails = new BathroomDetails();
 		bathroomDetails = bathroomDetailsRepo.findByPlaceId(placeId);
@@ -73,18 +72,18 @@ public class BathroomDetailsController {
 	 * @return
 	 */
 	@GetMapping("/findBathroomByPlaceId/{placeId}")
-	public BathroomDetails findBathroomByPlaceId(@PathVariable("placeId") String placeId) {
+	public BathroomDetails findBathroomByPlaceId(@PathVariable("placeId") String placeId){
 		BathroomDetails bathroomDetails = new BathroomDetails();
 		bathroomDetails = bathroomDetailsRepo.findByPlaceId(placeId);
 		return bathroomDetails;
 	}
 /*
 	@PutMapping("/add-bathroom-details")
-	public BathroomDetails addBathroomDetails(@Valid @RequestBody BathroomDetails bathroomDetails) {
+	public BathroomDetails addBathroomDetails( @Valid @RequestBody BathroomDetails bathroomDetails){
 		//get bathroom details
 		BathroomDetails newBathroomDetails = bathroomDetailsRepo.findByPlaceId(bathroomDetails.getPlaceId());
 
-		if (newBathroomDetails != null) {
+		if(newBathroomDetails!=null) {
 			if (newBathroomDetails.getMensRoom() != null) {
 				//Check if one already exists in the database for our given place
 				if (newBathroomDetails != null) {
@@ -112,69 +111,69 @@ public class BathroomDetailsController {
 						}
 					}
 				}
-
-				if (newBathroomDetails.getWomensRoom() != null) {
-					//Checks if the user is saying that there is a womens room (only updates this if it was previously false)
-					if (!newBathroomDetails.getWomensRoom().isExists()) {
-						newBathroomDetails.getWomensRoom().setExists(bathroomDetails.getWomensRoom().isExists());
-					}
-					//Checks if handicap accessibility was previously set to false, and updates it if the user changed it to true
-					if (!newBathroomDetails.getWomensRoom().isHandicap()) {
-						newBathroomDetails.getWomensRoom().setHandicap(bathroomDetails.getWomensRoom().isHandicap());
-					}
-					//Add womens room codes and ratings if there is a women's room
-					if (newBathroomDetails.getWomensRoom().isExists()) {
-						if (bathroomDetails.getWomensRoom().getCodes() != null) {
-							List<Code> womensCodes = newBathroomDetails.getWomensRoom().getCodes();
-							womensCodes.addAll(bathroomDetails.getWomensRoom().getCodes());
-
-							newBathroomDetails.getWomensRoom().setCodes(womensCodes);
-						}
-						if (bathroomDetails.getWomensRoom().getRatings() != null) {
-							List<Double> womensRatings = newBathroomDetails.getWomensRoom().getRatings();
-							womensRatings.addAll(bathroomDetails.getWomensRoom().getRatings());
-
-							newBathroomDetails.getWomensRoom().setRatings(womensRatings);
-						}
-					}
-				}
-
-				//makes sure that there is a gender neutral restroom
-				if (newBathroomDetails.getGenderNeutral() != null) {
-					//Checks if the user is saying that there is a gender neutral room (only updates this if it was previously false)
-					if (!newBathroomDetails.getGenderNeutral().isExists()) {
-						newBathroomDetails.getGenderNeutral().setExists(bathroomDetails.getGenderNeutral().isExists());
-					}
-					//Checks if handicap accessibility was previously set to false, and updates it if the user changed it to true
-					if (!newBathroomDetails.getGenderNeutral().isHandicap()) {
-						newBathroomDetails.getGenderNeutral().setHandicap(bathroomDetails.getGenderNeutral().isHandicap());
-					}
-					//adds gender neutral codes and ratings if there is a gender neutral room
-					if (newBathroomDetails.getGenderNeutral().isExists()) {
-						if (bathroomDetails.getGenderNeutral().getCodes() != null) {
-							List<Code> genderneutralCodes = newBathroomDetails.getGenderNeutral().getCodes();
-							genderneutralCodes.addAll(bathroomDetails.getGenderNeutral().getCodes());
-
-							newBathroomDetails.getGenderNeutral().setCodes(genderneutralCodes);
-						}
-						if (bathroomDetails.getGenderNeutral().getRatings() != null) {
-							List<Double> genderneutralRatings = newBathroomDetails.getGenderNeutral().getRatings();
-							genderneutralRatings.addAll(bathroomDetails.getGenderNeutral().getRatings());
-
-							newBathroomDetails.getGenderNeutral().setRatings(genderneutralRatings);
-						}
-					}
-				}
-
-				bathroomDetailsRepo.deleteByPlaceId(bathroomDetails.getPlaceId());
 			}
+
+			if (newBathroomDetails.getWomensRoom() != null) {
+				//Checks if the user is saying that there is a womens room (only updates this if it was previously false)
+				if (!newBathroomDetails.getWomensRoom().isExists()) {
+					newBathroomDetails.getWomensRoom().setExists(bathroomDetails.getWomensRoom().isExists());
+				}
+				//Checks if handicap accessibility was previously set to false, and updates it if the user changed it to true
+				if (!newBathroomDetails.getWomensRoom().isHandicap()) {
+					newBathroomDetails.getWomensRoom().setHandicap(bathroomDetails.getWomensRoom().isHandicap());
+				}
+				//Add womens room codes and ratings if there is a women's room
+				if (newBathroomDetails.getWomensRoom().isExists()) {
+					if (bathroomDetails.getWomensRoom().getCodes() != null) {
+						List<Code> womensCodes = newBathroomDetails.getWomensRoom().getCodes();
+						womensCodes.addAll(bathroomDetails.getWomensRoom().getCodes());
+
+						newBathroomDetails.getWomensRoom().setCodes(womensCodes);
+					}
+					if (bathroomDetails.getWomensRoom().getRatings() != null) {
+						List<Double> womensRatings = newBathroomDetails.getWomensRoom().getRatings();
+						womensRatings.addAll(bathroomDetails.getWomensRoom().getRatings());
+
+						newBathroomDetails.getWomensRoom().setRatings(womensRatings);
+					}
+				}
+			}
+
+			//makes sure that there is a gender neutral restroom
+			if (newBathroomDetails.getGenderNeutral() != null) {
+				//Checks if the user is saying that there is a gender neutral room (only updates this if it was previously false)
+				if (!newBathroomDetails.getGenderNeutral().isExists()) {
+					newBathroomDetails.getGenderNeutral().setExists(bathroomDetails.getGenderNeutral().isExists());
+				}
+				//Checks if handicap accessibility was previously set to false, and updates it if the user changed it to true
+				if (!newBathroomDetails.getGenderNeutral().isHandicap()) {
+					newBathroomDetails.getGenderNeutral().setHandicap(bathroomDetails.getGenderNeutral().isHandicap());
+				}
+				//adds gender neutral codes and ratings if there is a gender neutral room
+				if (newBathroomDetails.getGenderNeutral().isExists()) {
+					if (bathroomDetails.getGenderNeutral().getCodes() != null) {
+						List<Code> genderneutralCodes = newBathroomDetails.getGenderNeutral().getCodes();
+						genderneutralCodes.addAll(bathroomDetails.getGenderNeutral().getCodes());
+
+						newBathroomDetails.getGenderNeutral().setCodes(genderneutralCodes);
+					}
+					if (bathroomDetails.getGenderNeutral().getRatings() != null) {
+						List<Double> genderneutralRatings = newBathroomDetails.getGenderNeutral().getRatings();
+						genderneutralRatings.addAll(bathroomDetails.getGenderNeutral().getRatings());
+
+						newBathroomDetails.getGenderNeutral().setRatings(genderneutralRatings);
+					}
+				}
+			}
+
+			bathroomDetailsRepo.deleteByPlaceId(bathroomDetails.getPlaceId());
 		}
 		//If none exist, use bathroomDetails
-		else {
+		else{
 			//if the mens room exists, save its details, otherwise add a blank one
 			newBathroomDetails = new BathroomDetails();
 			newBathroomDetails.setPlaceId(bathroomDetails.getPlaceId());
-			if (bathroomDetails.getMensRoom().isExists()) {
+			if(bathroomDetails.getMensRoom().isExists()){
 				Bathroom mensRoom = new Bathroom();
 
 				mensRoom.setExists(bathroomDetails.getMensRoom().isExists());
@@ -183,7 +182,8 @@ public class BathroomDetailsController {
 				mensRoom.setRatings(bathroomDetails.getMensRoom().getRatings());
 
 				newBathroomDetails.setMensRoom(mensRoom);
-			} else {
+			}
+			else{
 				Bathroom bathroom = new Bathroom();
 				bathroom.setCodes(new ArrayList<Code>());
 				bathroom.setRatings(new ArrayList<Double>());
@@ -191,7 +191,7 @@ public class BathroomDetailsController {
 			}
 
 			//if womens room exists, save its details, otherwise add a blank one
-			if (bathroomDetails.getWomensRoom().isExists()) {
+			if(bathroomDetails.getWomensRoom().isExists()){
 				Bathroom womensRoom = new Bathroom();
 
 				womensRoom.setExists(bathroomDetails.getWomensRoom().isExists());
@@ -200,7 +200,8 @@ public class BathroomDetailsController {
 				womensRoom.setRatings(bathroomDetails.getWomensRoom().getRatings());
 
 				newBathroomDetails.setWomensRoom(womensRoom);
-			} else {
+			}
+			else{
 				Bathroom bathroom = new Bathroom();
 				bathroom.setCodes(new ArrayList<Code>());
 				bathroom.setRatings(new ArrayList<Double>());
@@ -208,7 +209,7 @@ public class BathroomDetailsController {
 			}
 
 			//if gender neutral exists, add its details, otherwise add a blank one
-			if (bathroomDetails.getGenderNeutral().isExists()) {
+			if(bathroomDetails.getGenderNeutral().isExists()){
 				Bathroom genderNeutral = new Bathroom();
 
 				genderNeutral.setExists(bathroomDetails.getGenderNeutral().isExists());
@@ -217,7 +218,8 @@ public class BathroomDetailsController {
 				genderNeutral.setRatings(bathroomDetails.getGenderNeutral().getRatings());
 
 				newBathroomDetails.setGenderNeutral(genderNeutral);
-			} else {
+			}
+			else{
 				Bathroom bathroom = new Bathroom();
 				bathroom.setCodes(new ArrayList<Code>());
 				bathroom.setRatings(new ArrayList<Double>());
@@ -379,11 +381,10 @@ public class BathroomDetailsController {
 				newBathroomDetails.setGenderNeutral(newGenderNeutral);
 			}
 		}
-		
+		bathroomDetailsRepo.deleteByPlaceId(newBathroomDetails.getPlaceId());
 		//Save the bathroom details
 		return bathroomDetailsRepo.save(newBathroomDetails);
 	}
-
 
 	@PutMapping("/vote/{type}")
 	public BathroomDetails addVotes(@Valid @RequestBody BathroomDetails bathroomDetails, @PathVariable("type") String type) {
@@ -391,49 +392,78 @@ public class BathroomDetailsController {
 		//get bathroom details
 		BathroomDetails newBathroomDetails = bathroomDetailsRepo.findByPlaceId(bathroomDetails.getPlaceId());
 
-
 		//get current codes from bathroom details
-		List<Code> mensCodes = bathroomDetails.getMensRoom().getCodes();
-		List<Code> womensCodes = bathroomDetails.getWomensRoom().getCodes();
-		List<Code> genderNeutralCodes = bathroomDetails.getGenderNeutral().getCodes();
+		List<Code> mensCodes = newBathroomDetails.getMensRoom().getCodes();
+		List<Code> womensCodes = newBathroomDetails.getWomensRoom().getCodes();
+		List<Code> genderNeutralCodes = newBathroomDetails.getGenderNeutral().getCodes();
 
-		//if upvote or downvote
+		//if it is an upvote or downvote
 		int vote = 0;
-		if (type == "up") vote += 1;
-		if (type == "down") vote += -1;
+		if (type.equals("up")) vote += 1;
+		if (type.equals("down")) vote += -1;
 
-		//get codes from request body for mens
+		//get codes to update from request body for mens
 		if (bathroomDetails.getMensRoom() != null) {
-			Bathroom mens = bathroomDetails.getMensRoom();
-			List<Code> requestmensCodes = mens.getCodes();
-			for (Code code : mensCodes) {
-				if (requestmensCodes.contains(code)) {
-					code.setVotes(code.getVotes() + vote);
+			if(bathroomDetails.getMensRoom().getCodes()!=null) {
+				Bathroom mens = bathroomDetails.getMensRoom();
+				List<Code> requestmensCodes = mens.getCodes();
+				for (Code code : mensCodes) {
+					for (Code code2 : requestmensCodes) {
+						if (code.getNumber().equals(code2.getNumber()) && code.getVotes() == code2.getVotes()) {
+							int i = mensCodes.indexOf(code);
+							code.setVotes(code.getVotes() + vote);
+							mensCodes.set(i, code);
+						}
+					}
 				}
 			}
 		}
 
-		//get codes from request body for womens
+		//get codes to update from request body for womens
 		if (bathroomDetails.getWomensRoom() != null) {
-			Bathroom womens = bathroomDetails.getWomensRoom();
-			List<Code> requestwomensCodes = womens.getCodes();
-			for (Code code : womensCodes) {
-				if (requestwomensCodes.contains(code)) {
-					code.setVotes(code.getVotes() + vote);
+			if(bathroomDetails.getWomensRoom().getCodes()!=null) {
+				Bathroom womens = bathroomDetails.getWomensRoom();
+				List<Code> requestwomensCodes = womens.getCodes();
+				for (Code code : womensCodes) {
+					for (Code code2 : requestwomensCodes) {
+						if (code.getNumber().equals(code2.getNumber()) && code.getVotes() == code2.getVotes()) {
+							int i = womensCodes.indexOf(code);
+							code.setVotes(code.getVotes() + vote);
+							womensCodes.set(i, code);
+						}
+					}
 				}
 			}
 		}
 
-		//get codes from request body for gender neutral
+		//get codes to update from request body for gender neutral
 		if (bathroomDetails.getGenderNeutral() != null) {
-			Bathroom genderNeutral = bathroomDetails.getGenderNeutral();
-			List<Code> requestgenderNeutralCodes = genderNeutral.getCodes();
-			for (Code code : genderNeutralCodes) {
-				if (requestgenderNeutralCodes.contains(code)) {
-					code.setVotes(code.getVotes() + vote);
+			if(bathroomDetails.getGenderNeutral().getCodes()!=null) {
+				Bathroom genderNeutral = bathroomDetails.getGenderNeutral();
+				List<Code> requestgenderNeutralCodes = genderNeutral.getCodes();
+				for (Code code : genderNeutralCodes) {
+					for (Code code2 : requestgenderNeutralCodes) {
+						if (code.getNumber().equals(code2.getNumber()) && code.getVotes() == code2.getVotes()) {
+							int i = genderNeutralCodes.indexOf(code);
+							code.setVotes(code.getVotes() + vote);
+							genderNeutralCodes.set(i, code);
+						}
+					}
 				}
 			}
 		}
+
+		newBathroomDetails.getMensRoom().setCodes(mensCodes);
+		newBathroomDetails.getWomensRoom().setCodes(womensCodes);
+		newBathroomDetails.getGenderNeutral().setCodes(genderNeutralCodes);
+
+		bathroomDetailsRepo.deleteByPlaceId(bathroomDetails.getPlaceId());
+		return bathroomDetailsRepo.save(newBathroomDetails);
+	}
+
+	@PutMapping("/replace-bathroom-details")
+	public BathroomDetails replaceBathroomDetails( @Valid @RequestBody BathroomDetails bathroomDetails) {
+		bathroomDetailsRepo.deleteByPlaceId(bathroomDetails.getPlaceId());
 		return bathroomDetailsRepo.save(bathroomDetails);
 	}
 }
